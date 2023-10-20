@@ -25,11 +25,15 @@ library
   exposed-modules:
     Database.Esqueleto.Compat
     Database.Esqueleto.Compat.Operators
+    Database.Esqueleto.Compat.Suffixed
 
   build-depends:
       base              >= 4.13 && < 5
     , persistent
     , esqueleto
+    , transformers
+    , resourcet
+    , conduit
 
   hs-source-dirs:
       src

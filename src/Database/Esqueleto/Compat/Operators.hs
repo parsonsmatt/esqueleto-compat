@@ -12,6 +12,9 @@ import Data.Kind
 -- @esqueleto@ libraries.
 class SqlAssignment a b c where
   (=.) :: a -> b -> c
+  (-=.) :: a -> b -> c
+  (+=.) :: a -> b -> c
+  (*=.) :: a -> b -> c
 
 infixr 3 =.
 
@@ -23,12 +26,18 @@ instance
   SqlAssignment field typ (Persist.Update rec)
   where
   (=.) = (Persist.=.)
+  (-=.) = (Persist.-=.)
+  (+=.) = (Persist.+=.)
+  (*=.) = (Persist.*=.)
 
 instance
   (PersistEntity rec, PersistField typ, field ~ EntityField rec typ) =>
   SqlAssignment field (SqlExpr (Value typ)) (SqlExpr (Entity rec) -> SqlExpr Esqueleto.Update)
   where
   (=.) = (Esqueleto.=.)
+  (-=.) = (Esqueleto.-=.)
+  (+=.) = (Esqueleto.+=.)
+  (*=.) = (Esqueleto.*=.)
 
 -- Esqueleto: (||.) :: SqlExpr (Value Bool) -> SqlExpr (Value Bool) -> SqlExpr (Value Bool)
 -- Persistent: (||.) :: [Filter v] -> [Filter v] -> [Filter v]
