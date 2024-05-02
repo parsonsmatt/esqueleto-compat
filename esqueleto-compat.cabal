@@ -27,6 +27,9 @@ library
     Database.Esqueleto.Compat.Operators
     Database.Esqueleto.Compat.Suffixed
 
+  other-modules:
+    Import.Database.Esqueleto
+
   build-depends:
       base              >= 4.13 && < 5
     , persistent
@@ -78,5 +81,6 @@ test-suite esqueleto-compat-test
   build-depends:
       base >=4.7 && <5
     , esqueleto-compat
+    , persistent
     , hspec
   default-language: Haskell2010
