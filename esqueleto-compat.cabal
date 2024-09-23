@@ -5,9 +5,9 @@ version:        0.0.2.0
 description:    Please see the README on GitHub at <https://github.com/parsonsmatt/esqueleto-compat#readme>
 homepage:       https://github.com/parsonsmatt/esqueleto-compat#readme
 bug-reports:    https://github.com/parsonsmatt/esqueleto-compat/issues
-author:         Matt von Hagen
+author:         Matt Parsons
 maintainer:     parsonsmatt@gmail.com
-copyright:      2023 Matt von Hagen
+copyright:      2023 Matt Parsons
 license:        BSD3
 license-file:   LICENSE
 build-type:     Simple
