@@ -1,0 +1,7 @@
+packages:
+    .
+
+source-repository-package
+    type: git
+    location: https://github.com/bitemyapp/esqueleto
+    tag: 1c386787cb4caca69ffa0d8073b64aad47d5a366

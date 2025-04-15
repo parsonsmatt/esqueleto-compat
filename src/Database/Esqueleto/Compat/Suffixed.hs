@@ -1,3 +1,5 @@
+{-# LANGUAGE CPP #-}
+
 -- | This module defines new names for terms in @esqueleto@ that have
 -- common conflicts with other modules.
 --
@@ -6,11 +8,14 @@
 --
 -- Functions that are about manipulating 'SqlExpr' are suffixed with an
 -- @_@. So @isNothing@ becomes 'isNothing_'.
-module Database.Esqueleto.Compat.Suffixed where
+module Database.Esqueleto.Compat.Suffixed
+    ( module Database.Esqueleto.Compat.Suffixed
+    , isNothing_
+    ) where
 
-import qualified Database.Esqueleto.Experimental as E
 import Database.Esqueleto.Internal.Internal
-import Database.Esqueleto.Experimental
+import qualified Import.Database.Esqueleto as E
+import Import.Database.Esqueleto
     ( SqlExpr
     , Entity, SqlQuery, PersistEntity, BackendCompatible, SqlBackend
     , PersistEntityBackend
@@ -60,8 +65,12 @@ deleteE = E.delete
 count_ :: (Num a) => SqlExpr (Value typ) -> SqlExpr (Value a)
 count_ = E.count
 
-groupBy_ :: (ToSomeValues a) => a -> SqlQuery ()
-groupBy_ = E.groupBy
+#if MIN_VERSION_esqueleto(3,5,10)
 
+#else
 isNothing_ :: (E.PersistField a) => SqlExpr (Value (Maybe a)) -> SqlExpr (Value Bool)
 isNothing_ = E.isNothing
+
+groupBy_ :: (ToSomeValues a) => a -> SqlQuery ()
+groupBy_ = E.groupBy
+#endif

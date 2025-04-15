@@ -1,7 +1,9 @@
+-- | This module exposes a set of operators that are capable of being used
+-- both in a @persistent@ context and an @esqueleto@ context.
 module Database.Esqueleto.Compat.Operators where
 
-import Database.Esqueleto.Experimental (SqlExpr, Value)
-import qualified Database.Esqueleto.Experimental as Esqueleto
+import Import.Database.Esqueleto (SqlExpr, SqlExpr_, Value)
+import qualified Import.Database.Esqueleto as Esqueleto
 import qualified Database.Esqueleto.Internal.Internal as Esqueleto
 import Database.Persist.Sql (Entity, EntityField, PersistEntity, PersistField, Filter)
 import qualified Database.Persist.Sql as Persist
@@ -31,8 +33,10 @@ instance
   (*=.) = (Persist.*=.)
 
 instance
-  (PersistEntity rec, PersistField typ, field ~ EntityField rec typ) =>
-  SqlAssignment field (SqlExpr (Value typ)) (SqlExpr (Entity rec) -> SqlExpr Esqueleto.Update)
+  ( PersistEntity rec, PersistField typ, field ~ EntityField rec typ
+  , ctx0 ~ Esqueleto.ValueContext, ctx1 ~ ctx0, ctx2 ~ ctx1)
+  =>
+  SqlAssignment field (SqlExpr_ ctx0 (Value typ)) (SqlExpr_ ctx1 (Entity rec) -> SqlExpr_ ctx2 Esqueleto.Update)
   where
   (=.) = (Esqueleto.=.)
   (-=.) = (Esqueleto.-=.)
@@ -135,15 +139,18 @@ instance
   (<=.) = (Persist.<=.)
 
 instance
-  (PersistField a, a ~ b, lhs ~ SqlExpr (Value a), c ~ Bool) =>
-  SqlComparison (SqlExpr (Value a)) (SqlExpr (Value b)) (SqlExpr (Value c))
+    ( PersistField a, a ~ b, lhs ~ SqlExpr (Value a), c ~ Bool
+    , ctx0 ~ ctx1, ctx1 ~ ctx2
+    )
+  =>
+    SqlComparison (SqlExpr_ ctx0 (Value a)) (SqlExpr_ ctx1 (Value b)) (SqlExpr_ ctx2 (Value c))
   where
-  (==.) = (Esqueleto.==.)
-  (!=.) = (Esqueleto.!=.)
-  (>.) = (Esqueleto.>.)
-  (>=.) = (Esqueleto.>=.)
-  (<.) = (Esqueleto.<.)
-  (<=.) = (Esqueleto.<=.)
+    (==.) = (Esqueleto.==.)
+    (!=.) = (Esqueleto.!=.)
+    (>.) = (Esqueleto.>.)
+    (>=.) = (Esqueleto.>=.)
+    (<.) = (Esqueleto.<.)
+    (<=.) = (Esqueleto.<=.)
 
 -- | An alias for '!=.', in keeping with the convention of having Haskell-ish
 -- operators.

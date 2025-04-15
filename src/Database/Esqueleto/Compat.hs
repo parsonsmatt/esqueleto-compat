@@ -11,13 +11,14 @@
 module Database.Esqueleto.Compat
     ( -- * The compatibility operators
       module Database.Esqueleto.Compat.Operators
-    , -- * Re-exports from "Database.Esqueleto.Experimental"
-        module Database.Esqueleto.Experimental
+    , module Database.Esqueleto.Compat.Suffixed
+    , -- * Re-exports from "Database.Esqueleto.Experimental" (or "Database.Esqueleto" in esqueleto >= 4)
+        module Import.Database.Esqueleto
       -- * Re-exports from "Database.Persist.Sql"
     , module Database.Persist.Sql
     ) where
 
-import Database.Esqueleto.Experimental hiding
+import Import.Database.Esqueleto hiding
     ( not_
     , update
     , selectSource
